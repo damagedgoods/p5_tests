@@ -14,6 +14,8 @@ let texto = " Azzurro, il pomeriggio è troppo azzurro e lungo per me. Mi accorg
 let currentX = 0;
 let currentY = size;
 
+let status = -1;
+
 function preload() {  
 }
 
@@ -32,23 +34,36 @@ function draw() {
     soundEvent(vol);
     last = timer;
   }
-  textSize(size);
+  
   fill(10);
   //text(taps, 10, 30);
   timer ++;
 
-  for (var i=0; i<letras.length; i++) {
-    let l = letras[i];
-    l.draw()
+  if (status == -1) {
+    let texto = "Ready to start? Click anywhere";
+    textSize(21);
+    text(texto, windowWidth/2 - textWidth(texto)/2, windowHeight/2);
+  } else if (taps == 0) {
+    let texto = "Start clapping, I'm listening...";
+    textSize(21);
+    text(texto, windowWidth/2 - textWidth(texto)/2, windowHeight/2);
+  } else {
+    textSize(size);
+    for (var i=0; i<letras.length; i++) {
+      let l = letras[i];
+      l.draw()
+    }    
   }
 
 }
 
 function touchStarted() {
+  status = 0;
   getAudioContext().resume()
 }
 
 function soundEvent(l) {
+  textSize(size);
   taps++;
   let x = currentX;
   let y = currentY;
